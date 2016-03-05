@@ -4,20 +4,37 @@ Lambda project with claudiajs, nodejs and dynamoDB
 In order to execute this project you must:
 
 1 - Install Nodejs
-  npm install node
 
-2 - Install the project dependencies, run the following command on the project root:
+  npm install node
+  
+2 - Install claudiajs
+
+  npm install claudia -g
+
+3 - Install the project dependencies, run the following command on the project root:
+
   npm install
 
-3 - Install AWS Commandline client
+4 - Install AWS Commandline client
+
   apt-get install awscli
 
-4 - Confige credentials to AWS Services
-  aws configure
+5 - Confige credentials to AWS Services
+
+  run: aws configure
+
+  fill with
 
   -aws_access_key_id
-  -aws_secret_access_key
-  -region
   
-  To get the access key id and secret access key go to your Amazon account credentials settings.
-  This needs to be configure because the claudiaJS use the AWS API to connect with the aws services(lambda, gateway, etc...)
+  -aws_secret_access_key
+  
+  -region
+
+  This needs to be configure because the claudiaJS use the AWS API to connect with the aws services(lambda, gateway, etc...)  
+  
+  To get the access key id and secret access key go to your amazon account credentials settings.
+  
+6 - Run claudia command line
+
+  claudia create --name greetings --region us-east-1 --api-module server
