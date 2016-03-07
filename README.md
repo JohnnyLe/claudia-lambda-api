@@ -36,7 +36,7 @@ In order to execute this project you must:
 
 6 - Run claudia command line
 
-  claudia create --name greetings --region us-east-1 --api-module server
+    claudia create --name greetings --region us-east-1 --api-module server
 
   This command is going to create the service on us-east-1, in order to see the server running on aws console, you must use the same region.
 
