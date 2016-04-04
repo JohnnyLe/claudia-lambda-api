@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "greetings-executor",
+    "name": "greetings",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "k17255c6qc",
+    "module": "server"
+  }
+}

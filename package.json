@@ -5,11 +5,24 @@
   "main": "index.js",
   "files": "*.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "create": "claudia create --name dynamodb-examples-test --region us-east-1 --api-module index --policies policies",
+    "deploy": "claudia update"
   },
+  "keywords": [
+    "claudia",
+    "aws-lambda",
+    "dynamodb"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "claudia-api-builder": "^1.0.2"
+    "aws-sdk": "^2.3.0",
+    "bluebird": "^3.3.3",
+    "claudia-api-builder": "^1.0.2",
+    "dynamo-doc": "^0.1.1",
+    "dynamodb-doc": "^1.0.0"
+  },
+  "devDependencies": {
+    "claudia": "^1.0.9"
   }
 }
