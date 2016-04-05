@@ -3,128 +3,93 @@ var ApiBuilder = require('claudia-api-builder'),
 	DOC = require('dynamodb-doc'),
 	api = new ApiBuilder(),
 	docClient = Promise.promisifyAll(new DOC.DynamoDB());
-    
-    
-// var apiBuilder = require('claudia-api-builder'),
-//     api = new apiBuilder();
-    
-// var AWS = require('aws-sdk');
-
-//var db = new AWS.DynamoDB();
-// var dynamodb = new AWS.DynamoDB({apiVersion: 'latest'});
-
-//  var DOC = require("dynamodb-doc");
-//  var docClient = new DOC.DynamoDB();
-
-
-// var docClient = new AWS.DynamoDB.DocumentClient({region: 'us-east-1'});
 
 module.exports = api;
 
-api.get('/hello', function () {
-    'use strict';
-    
-    var message = "";
-    var id, params;
-    
-    //  .scan(
-    //     {TableName: "dynamo-test", Limit:50},
-    
-    params = {
-		TableName: 'dynamo-test',
+
+// Create new user
+api.post('/user', function (request) {
+	'use strict';
+
+	// Map to the item to store from the posted data
+	// (psst should an application/x-form-www-urlencoded be used
+	//	we could have read it below with request.post.userId etc.)
+	var params = {
+		TableName: "usuario",
+		Item: {
+			Id: request.body.userId,
+			username: request.body.username,
+			name: request.body.name,
+            password: request.body.password
+		}
+	};
+
+	// Store it and return the promise,
+	// that will evaluate before reponding back to the client
+	return docClient.putItemAsync(params);
+
+}, { success: 201 }); // Return HTTP status 201 - Created when successful
+
+
+// get user for {id}
+api.get('/user/{id}', function (request) {
+	'use strict';
+	var id, params;
+	// Get the id from the pathParams
+	id = request.pathParams.id;
+
+	// Set up parameters for dynamo
+	params = {
+		TableName: 'usuario',
 		Key: {
-			userid: "12"
+			Id: id
 		}
 	};
 
 	// Get the item using our promisified function
 	return docClient.getItemAsync(params);
-    
-    // var params1 = {
-    //     RequestItems: {
-    //         'dynamo-test': {
-    //             Keys: [
-    //                 { userid: '12' },
-    //             ]
-    //         }
-    //     }
-    // };
-    
-    // var params = {
-    //     TableName: "dynamo-test"
-    // };
-    
-    // var dynamo = new AWS.DynamoDB();
-    // message += "dynamo created";
-    
-    // var docClient = new AWS.DynamoDB.DocumentClient();
-    // message += "- docClient created";
 
-    // dynamo.scan(params, function(err, data) {
-    //    message += "- entrou scan";
-    //     if (err) {
-    //         message += "- err :" + err;
-    //     } else {
-    //         message += "- data :" + data.userid;
-    //     }
-    // });
+}); //200 ok is standard for non-errors
 
-    // // return docClient;
-    // docClient.batchGet(params, function(err, data) {
-    //     message += "- entrou batchGet";
-    //      if (err) {
-    //         message += "- err bath:" + err;
-    //     } else {
-    //         message += "- data bath:" + data.userid;
-    //     }
-    // });
 
-    //return message;
+// delete user with {id}
+api.delete('/user/{id}', function (request) {
+	'use strict';
+	var id, params;
+	// Get the id from the pathParams
+	id = request.pathParams.id;
 
-//    var params = {
-//         Key: {
-//             hashkey: 'userid',
-//         },
-//         TableName: 'dynamo-test'
-//     };
+	// Set up parameters for dynamo
+	params = {
+		TableName: 'usuario',
+		Key: {
+			Id: id
+		}
+	};
+
+	// Get the item using our promisified function
+	// return a nice little message in the .then-clause
+	return docClient.deleteItemAsync(params)
+		.then(function () {
+			return 'Deleted user with id "' + id + '"';
+		});
+}); //200 ok is standard for non-errors
+
+
+
+// api.get('/user', function () {
+//     'use strict';
     
-    //return docClient;
+//     var id, params;
     
-    // docClient.get(params, function(err, data){
-    //     return "entrou";
-    //     // if (err) return "err";
-    //     // else return "data"; 
-    //     /**
-    //      *  { 
-    //      *      Item: { 
-    //      *          hashkey: 'key'
-    //      *          boolAttr: true,
-    //      *          listAttr: [1, 'baz', true]
-    //      *          mapAttr: {
-    //      *              foo: 'bar'
-    //      *          }
-    //      *      }
-    //      *  }
-    //      **/
-    // });
-        
-    //  docClient.listTables(function(err, data) {
-    //    return dynamodb + " " + data.TableNames;
-    // });
+//     params = {
+// 		TableName: 'usuario',
+// 		Key: {
+// 			userid: "0"
+// 		}
+// 	};
 
-    // dynamoDB.putItem(
-    // {
-    //     "TableName": "Usuario",
-    //     "Item": {
-    //         "Id": {"N": "1"},
-    //         "Username": {"S": "vsossella"},
-    //         "Password": {"S": "123456"}
-    //     }
-    // }, function(result) {
-    //     result.on('data', function(chunk) {
-    //         console.log("" + chunk);
-    //     });
-    // });
-
-    // return 'hi there updated!';
-});
+// 	// Get the item using our promisified function
+// 	return docClient.getItemAsync(params);
+    
+// });
