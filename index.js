@@ -1,6 +1,7 @@
 var ApiBuilder = require('claudia-api-builder'),
 	Promise = require('bluebird'),
 	DOC = require('dynamodb-doc'),
+	shortid = require('shortid');
 	api = new ApiBuilder(),
 	docClient = Promise.promisifyAll(new DOC.DynamoDB());
 
@@ -17,10 +18,12 @@ api.post('/user', function (request) {
 	var params = {
 		TableName: "usuario",
 		Item: {
-			Id: request.body.userId,
+			Id: shortid.generate(),
 			username: request.body.username,
 			name: request.body.name,
-            password: request.body.password
+            password: request.body.password,
+			email: request.body.email,
+			cpf: request.body.cpf
 		}
 	};
 
