@@ -16,7 +16,7 @@ api.post('/user', function (request) {
 	var params = {
 		TableName: "usuario",
 		Item: {
-			Id: shortid.generate(),
+			Id: request.body.id > 0 ? request.body.id : shortid.generate(),
 			username: request.body.username,
 			name: request.body.name,
             password: request.body.password,
