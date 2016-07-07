@@ -8,6 +8,7 @@ var ApiBuilder = require('claudia-api-builder'),
 module.exports = api;
 
 require('./professional-service.js')
+require('./agenda.js')
 
 // Create new user
 api.post('/user', function (request) {
