@@ -31,7 +31,7 @@ api.post('/profissional', function (request) {
 
 }, { success: 201 }); // Return HTTP status 201 - Created when successful
 
-// get user for {id}
+// scan profis
 api.get('/profissional', function (request) {
 	'use strict';
 	var params;
@@ -41,6 +41,30 @@ api.get('/profissional', function (request) {
 		TableName: 'profissional'
 	};
 
+	// Get the item using our promisified function
+	return docClient.scanAsync(params);
+
+}); //200 ok is standard for non-errors
+
+// get profi for {id}
+api.get('/profissional/{id}', function (request) {
+	'use strict';
+	
+	var idUsuario, params;
+
+	// Get the id from the pathParams
+	idUsuario = request.pathParams.id;
+	
+	// Set up parameters for dynamo
+	params = {
+		TableName: 'profissional',
+		FilterExpression: 'IdUsuario = :id',
+		ExpressionAttributeValues: {
+			':id': idUsuario
+		}
+		//Key: { IdProfissional : id, DataAgendamento : data }
+	};
+	
 	// Get the item using our promisified function
 	return docClient.scanAsync(params);
 
