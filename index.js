@@ -18,11 +18,10 @@ api.post('/user', function (request) {
 		TableName: "usuario",
 		Item: {
 			Id: request.body.id > 0 ? request.body.id : shortid.generate(),
-			username: request.body.username,
 			name: request.body.name,
             password: request.body.password,
 			email: request.body.email,
-			cpf: request.body.cpf
+			celular: request.body.celular
 		}
 	};
 
