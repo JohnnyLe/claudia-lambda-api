@@ -21,7 +21,8 @@ api.post('/profissional', function (request) {
 			Bairro: request.body.bairro,
             Telefone: request.body.telefone,
             Celular: request.body.celular,
-            CelularSecundario: request.body.celularSecundario
+            CelularSecundario: request.body.celularSecundario,
+			IdUsuario: request.body.idUsuario
 		}
 	};
 
@@ -38,7 +39,11 @@ api.get('/profissional', function (request) {
 	
 	// Set up parameters for dynamo
 	params = {
-		TableName: 'profissional'
+		TableName: 'profissional',
+		FilterExpression: 'Ativo = :ativo',
+		ExpressionAttributeValues: {
+			':ativo': true
+		}
 	};
 
 	// Get the item using our promisified function
@@ -82,7 +87,10 @@ api.get('/profissional/{id}/services', function (request) {
 	// Set up parameters for dynamo
 	params = {
 		TableName: 'profissional_servico',
-		Key: { IdUsuario : id }
+		FilterExpression: 'IdUsuario = :id',
+		ExpressionAttributeValues: {
+			':id': id
+		}
 	};
 
 	// Get the item using our promisified function
